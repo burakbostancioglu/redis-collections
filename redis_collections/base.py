@@ -220,12 +220,9 @@ class RedisCollection:
         :type string: string
         :rtype: anything serializable
         """
-        if string is None:
-            return None
-        if not isinstance(string, basestring):
-            msg = 'Only strings can be unpickled (%r given).' % string
-            raise TypeError(msg)
-        return self.pickler.loads(string)
+        if string:
+            return self.pickler.loads(string.decode())
+        return None
 
     @abstractmethod
     def _update(self, data, pipe=None):
